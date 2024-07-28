@@ -8,6 +8,8 @@ set(CURSES_LIBRARY "C:/tools/PDCurses-3.9/wincon/pdcurses.a")
 find_package( Curses REQUIRED )
 include_directories( ${CURSES_INCLUDE_DIR} )
 
-add_executable(bolt_check_terminal main.c)
+add_executable(bolt_check_terminal main.c
+        temp_function.h
+        temp_function.c)
 
 target_link_libraries( bolt_check_terminal ${CURSES_LIBRARIES} )
