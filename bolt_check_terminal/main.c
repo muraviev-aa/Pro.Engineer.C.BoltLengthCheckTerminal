@@ -8,8 +8,8 @@
 #define USER2 102
 #define USER3 0 // фоновый цвет soft labels
 #define USER4 103
-
-
+#define USER5 104
+#define USER6 105
 
 int main(void)
 {
@@ -22,6 +22,10 @@ int main(void)
     char thick_parts_head_result[] = "Thickness of parts under the head is %s.";
     char thick_part_nut[] = "4. Thickness of the part under the nut: ";
     char thick_part_nut_result[] = "Thickness of the part under the nut is %s.";
+    char number_wash_head[] = "5. Number of washers under the bolt head: ";
+    char number_wash_head_result[] = "Number of washers under the bolt head is %s. ";
+    char number_wash_nut[] = "6. Number of washers under nuts: ";
+    char number_wash_nut_result[] = "Number of washers under nuts is %s. ";
 
     char info[5];
     char label_text[LMAX][8] = {"HELP", "RESET", "CALC", "EXIT"};
@@ -40,6 +44,8 @@ int main(void)
     init_color(USER2, 760, 960, 70);       // использован
     init_color(USER3, 0, 0, 1000);         // фоновый цвет soft labels
     init_color(USER4, 200, 80, 690);       // использован
+    init_color(USER5, 840, 970, 690);      // использован
+    init_color(USER6, 1000, 620, 0);      // использован
     slk_color(0);
 
     // soft labels
@@ -62,7 +68,9 @@ int main(void)
     init_pair(2, COLOR_WHITE, COLOR_BLUE);     // базовый синий
     init_pair(3, COLOR_BLUE, PINK);            // базовый розовый
     init_pair(4, COLOR_BLACK, USER2);          // базовый салатовый
-    init_pair(5, COLOR_WHITE, USER4);          // базовый темно синий
+    init_pair(5, COLOR_WHITE, USER4);          // базовый темно-синий
+    init_pair(6, COLOR_BLUE, USER5);           // базовый toxic желтый
+    init_pair(7, COLOR_BLUE, USER6);           // базовый оранжевый
 
     // базовое окно терминала
     bkgd(COLOR_PAIR(1));
@@ -83,6 +91,14 @@ int main(void)
 
     // 4. Вводим толщину детали под гайкой
     enter_data(sub1, info, thick_part_nut, thick_part_nut_result, 3);
+    refresh();
+
+    // 5. Вводим количество шайб под головкой болта
+    enter_data(sub1, info, number_wash_head, number_wash_head_result, 6);
+    refresh();
+
+    // 6. Вводим количество шайб под гайкой
+    enter_data(sub1, info, number_wash_nut, number_wash_nut_result, 7);
     refresh();
 
     getch();
