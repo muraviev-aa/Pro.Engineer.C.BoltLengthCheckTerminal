@@ -16,6 +16,13 @@ int main(void)
 {
     WINDOW *sub1, *a, *b, *c;
     int maxx, maxy, halfx, halfy;
+    int bolt_diam_num = 0;               // диаметр болта
+    int bolt_length_num = 0;             // длина болта
+    int thick_parts_head_num = 0;        // толщина деталей (детали) под головкой болта
+    int thick_part_nut_num = 0;          // толщина детали под гайкой
+    int number_wash_head_num = 0;        // количество шайб под головкой болта
+    int number_wash_nut_num = 0;         // количество шайб под гайками
+
     char bolt_diam[] = "1. Enter bolt diameter: ";
     char bolt_diam_result[] = "Bolt diameter is %s.";
     char bolt_length[] = "2. Enter bolt length: ";
@@ -65,7 +72,8 @@ int main(void)
     sub1 = subwin(stdscr, LINES - 26, COLS - 2, 1, 1);
     a = subwin(stdscr, 2 * halfy - 4, halfx - 1, 3, 1);
     b = subwin(stdscr, halfy - 2, halfx - 1, 3, halfx);
-    if (sub1 == NULL || a == NULL || b == NULL)
+    c = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, halfx);
+    if (sub1 == NULL || a == NULL || b == NULL || c == NULL)
     {
         endwin();
         puts("Unable to create subwindow");
@@ -86,13 +94,17 @@ int main(void)
     // Пишем в каждом доп. окне
     wbkgd(a, COLOR_PAIR(2));
     wbkgd(b, COLOR_PAIR(2));
+    wbkgd(c, COLOR_PAIR(2));
     box(a, 0, 0);
     box(b, 0, 0);
+    box(c, 0, 0);
     mvwaddstr(a, 0, 2, " Entered data ");
     mvwaddstr(b, 0, 2, " Thread location and bolt end length ");
+    mvwaddstr(c, 0, 2, " Test ");
 
     wrefresh(a);
     wrefresh(b);
+    wrefresh(c);
 
     // базовое окно терминала
     bkgd(COLOR_PAIR(1));
