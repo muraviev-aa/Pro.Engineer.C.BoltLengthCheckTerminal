@@ -50,3 +50,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+/bolt_check_terminal/.idea
+/bolt_check_terminal/cmake-build-debug
