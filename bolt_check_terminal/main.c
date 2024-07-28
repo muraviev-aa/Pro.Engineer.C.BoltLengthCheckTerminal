@@ -10,11 +10,13 @@
 #define USER4 103
 #define USER5 104
 #define USER6 105
+#define USER7 106
 
 int main(void)
 {
-    WINDOW *sub1;
-    char bolt_diam[] = "Enter bolt diameter: ";
+    WINDOW *sub1, *a, *b, *c;
+    int maxx, maxy, halfx, halfy;
+    char bolt_diam[] = "1. Enter bolt diameter: ";
     char bolt_diam_result[] = "Bolt diameter is %s.";
     char bolt_length[] = "2. Enter bolt length: ";
     char bolt_length_result[] = "Bolt length is %s.";
@@ -29,11 +31,11 @@ int main(void)
 
     char info[5];
     char label_text[LMAX][8] = {"HELP", "RESET", "CALC", "EXIT"};
-    int ch;
     int label;
 
     slk_init(3);
     initscr();
+    refresh();
 
     start_color();
     if (!can_change_color())
@@ -45,7 +47,8 @@ int main(void)
     init_color(USER3, 0, 0, 1000);         // фоновый цвет soft labels
     init_color(USER4, 200, 80, 690);       // использован
     init_color(USER5, 840, 970, 690);      // использован
-    init_color(USER6, 1000, 620, 0);      // использован
+    init_color(USER6, 1000, 620, 0);       // использован
+    init_color(USER7, 1000, 990, 0);       // использован
     slk_color(0);
 
     // soft labels
@@ -53,9 +56,16 @@ int main(void)
         slk_set(label + 1, label_text[label], CENTER);
     slk_refresh();
 
+    // определяем размеры и положение доп. окон
+    getmaxyx(stdscr, maxy, maxx);
+    halfx = maxx >> 1;
+    halfy = maxy >> 1;
+
     // создаем доп. окна
     sub1 = subwin(stdscr, LINES - 26, COLS - 2, 1, 1);
-    if (sub1 == NULL)
+    a = subwin(stdscr, 2 * halfy - 4, halfx - 1, 3, 1);
+    b = subwin(stdscr, halfy - 2, halfx - 1, 3, halfx);
+    if (sub1 == NULL || a == NULL || b == NULL)
     {
         endwin();
         puts("Unable to create subwindow");
@@ -71,6 +81,18 @@ int main(void)
     init_pair(5, COLOR_WHITE, USER4);          // базовый темно-синий
     init_pair(6, COLOR_BLUE, USER5);           // базовый toxic желтый
     init_pair(7, COLOR_BLUE, USER6);           // базовый оранжевый
+    init_pair(8, COLOR_BLUE, USER7);           // базовый toxic желтый
+
+    // Пишем в каждом доп. окне
+    wbkgd(a, COLOR_PAIR(2));
+    wbkgd(b, COLOR_PAIR(2));
+    box(a, 0, 0);
+    box(b, 0, 0);
+    mvwaddstr(a, 0, 2, " Entered data ");
+    mvwaddstr(b, 0, 2, " Thread location and bolt end length ");
+
+    wrefresh(a);
+    wrefresh(b);
 
     // базовое окно терминала
     bkgd(COLOR_PAIR(1));
@@ -78,7 +100,7 @@ int main(void)
     refresh();
 
     // 1. Вводим диаметр болта
-    enter_data(sub1, info, bolt_diam, bolt_diam_result, 2);
+    enter_data(sub1, info, bolt_diam, bolt_diam_result, 8); // был 2
     refresh();
 
     // 2. Вводим длину болта
