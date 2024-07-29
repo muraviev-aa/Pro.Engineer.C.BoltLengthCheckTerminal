@@ -15,7 +15,7 @@ int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, int pair_num)
         wmove(sub1, 1, 1);
         wprintw(sub1, "Bolt diameter is %s.", info);
         wprintw(sub1, " If the information is correct then press 'y' ");
-        wmove(a1, 5, 45);   // работа с доп. окном a1
+        wmove(a1, 1, 45);   // работа с доп. окном a1
         wprintw(a1, "%s", info);
         wrefresh(a1);
         ch = wgetch(sub1);
@@ -38,7 +38,7 @@ int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, int pair_num)
         wmove(sub1, 1, 1);
         wprintw(sub1, "Bolt length is %s.", info);
         wprintw(sub1, " If the information is correct then press 'y' ");
-        wmove(a1, 7, 45);   // работа с доп. окном a1
+        wmove(a1, 2, 45);   // работа с доп. окном a1
         wprintw(a1, "%s", info);
         wrefresh(a1);
         ch = wgetch(sub1);
@@ -61,7 +61,7 @@ int enter_data_thick_parts_head(WINDOW *sub1, WINDOW *a1, int pair_num)
         wmove(sub1, 1, 1);
         wprintw(sub1, "Thickness of parts under the head is %s.", info);
         wprintw(sub1, " If the information is correct then press 'y' ");
-        wmove(a1, 9, 45);   // работа с доп. окном a1
+        wmove(a1, 4, 45);   // работа с доп. окном a1
         wprintw(a1, "%s", info);
         wrefresh(a1);
         ch = wgetch(sub1);
@@ -84,7 +84,7 @@ int enter_data_thick_part_nut(WINDOW *sub1, WINDOW *a1, int pair_num)
         wmove(sub1, 1, 1);
         wprintw(sub1, "Thickness of the part under the nut is %s.", info);
         wprintw(sub1, " If the information is correct then press 'y' ");
-        wmove(a1, 11, 45);   // работа с доп. окном a1
+        wmove(a1, 5, 45);   // работа с доп. окном a1
         wprintw(a1, "%s", info);
         wrefresh(a1);
         ch = wgetch(sub1);
@@ -107,7 +107,7 @@ int enter_data_number_wash_head(WINDOW *sub1, WINDOW *a1, int pair_num)
         wmove(sub1, 1, 1);
         wprintw(sub1, "Number of washers under the bolt head is %s.", info);
         wprintw(sub1, " If the information is correct then press 'y' ");
-        wmove(a1, 13, 45);   // работа с доп. окном a1
+        wmove(a1, 7, 45);   // работа с доп. окном a1
         wprintw(a1, "%s", info);
         wrefresh(a1);
         ch = wgetch(sub1);
@@ -130,7 +130,7 @@ int enter_data_number_wash_nut(WINDOW *sub1, WINDOW *a1, int pair_num)
         wmove(sub1, 1, 1);
         wprintw(sub1, "Number of washers under nuts is %s.", info);
         wprintw(sub1, " If the information is correct then press 'y' ");
-        wmove(a1, 15, 45);   // работа с доп. окном a1
+        wmove(a1, 8, 45);   // работа с доп. окном a1
         wprintw(a1, "%s", info);
         wrefresh(a1);
         ch = wgetch(sub1);

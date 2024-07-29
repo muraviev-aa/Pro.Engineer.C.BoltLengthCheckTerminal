@@ -15,7 +15,7 @@
 
 int main(void)
 {
-    WINDOW *sub1, *a, *a1, *b, *c;
+    WINDOW *sub1, *a, *a1, *b, *c, *d, *d1;
     int maxx, maxy, halfx, halfy;
     int bolt_diam = 0;                  // диаметр болта
     int bolt_length = 0;                // длина болта
@@ -58,12 +58,14 @@ int main(void)
 
     // создаем доп. окна
     sub1 = subwin(stdscr, LINES - 26, COLS - 2, 1, 1);
-    a = subwin(stdscr, 2 * halfy - 4, halfx - 1, 3, 1);
-    a1 = subwin(stdscr, 2 * halfy - 8, halfx - 2, 4, 3);
+    a = subwin(stdscr, halfy - 2, halfx - 1, 3, 1);
+    a1 = subwin(stdscr, halfy - 5, halfx - 2, 4, 3);
     b = subwin(stdscr, halfy - 2, halfx - 1, 3, halfx);
     c = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, halfx);
+    d = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, 1);
+    d1 = subwin(stdscr, halfy - 5, halfx - 2, halfy + 2, 3);
 
-    if (sub1 == NULL || a == NULL || a1 == NULL || b == NULL || c == NULL)
+    if (sub1 == NULL || a == NULL || a1 == NULL || b == NULL || c == NULL || d == NULL || d1 == NULL)
     {
         endwin();
         puts("Unable to create subwindow");
@@ -86,25 +88,36 @@ int main(void)
     wbkgd(a1, COLOR_PAIR(2));
     wbkgd(b, COLOR_PAIR(2));
     wbkgd(c, COLOR_PAIR(2));
+    wbkgd(d, COLOR_PAIR(2));
+    wbkgd(d1, COLOR_PAIR(2));
     box(a, 0, 0);
     box(b, 0, 0);
     box(c, 0, 0);
-    mvwaddstr(a, 0, 2, " Entered data ");
-    mvwaddstr(a1, 5, 5, "BOLT DIAMETER");
-    mvwaddstr(a1, 7, 5, "BOLT LENGTH");
-    mvwaddstr(a1, 9, 5, "THICKNESS OF PARTS UNDER THE HEAD");
-    mvwaddstr(a1, 11, 5, "THICKNESS OF THE PARTS UNDER THE NUT");
-    mvwaddstr(a1, 13, 5, "NUMBER OF WASHERS UNDER THE BOLT HEAD");
-    mvwaddstr(a1, 15, 5, "NUMBER OF WASHERS UNDER NUTS");
+    box(d, 0, 0);
+    mvwaddstr(a, 0, 1, " a) Entered data ");
+    mvwaddstr(a1, 1, 5, "BOLT DIAMETER");
+    mvwaddstr(a1, 2, 5, "BOLT LENGTH");
+    mvwaddstr(a1, 4, 5, "THICKNESS OF PARTS UNDER THE HEAD");
+    mvwaddstr(a1, 5, 5, "THICKNESS OF THE PARTS UNDER THE NUT");
+    mvwaddstr(a1, 7, 5, "NUMBER OF WASHERS UNDER THE BOLT HEAD");
+    mvwaddstr(a1, 8, 5, "NUMBER OF WASHERS UNDER NUTS");
     //wmove(a1, 2, 3);
     //wprintw(a1, "BOLT DIAMETER");
-    mvwaddstr(b, 0, 2, " Thread location and bolt end length ");
-    mvwaddstr(c, 0, 2, " Test ");
+    mvwaddstr(b, 0, 1, " b) Thread location and bolt end length ");
+    mvwaddstr(c, 0, 1, " c) Result ");
+    mvwaddstr(d, 0, 1, " d) GOST 7798-70, GOST 11371-78, GOST 5915-70 ");
+    mvwaddstr(d1, 1, 5, "WASHER THICKNESS");
+    mvwaddstr(d1, 3, 5, "NUT HEIGHT");
+    mvwaddstr(d1, 5, 5, "THREAD LENGTH");
+    mvwaddstr(d1, 7, 5, "THREAD PITCH");
+    mvwaddstr(d1, 9, 5, "CHAMFER");
 
     wrefresh(a);
     wrefresh(a1);
     wrefresh(b);
     wrefresh(c);
+    wrefresh(d);
+    wrefresh(d1);
 
     // базовое окно терминала
     bkgd(COLOR_PAIR(1));
