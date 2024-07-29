@@ -25,4 +25,7 @@ int enter_data_number_wash_head(WINDOW *sub1, WINDOW *a1, int pair_num);
 // Ввод количества шайб под гайкой
 int enter_data_number_wash_nut(WINDOW *sub1, WINDOW *a1, int pair_num);
 
+// Удаляем неверно введенные символы
+void delete_char(WINDOW *w, int row, int column, int count_ch);
+
 #endif //BOLT_CHECK_TERMINAL_TEMP_FUNCTION_H

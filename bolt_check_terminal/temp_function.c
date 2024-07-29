@@ -19,13 +19,7 @@ int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, int pair_num)
         wrefresh(a1);
         ch = wgetch(sub1);
         if (ch == 'n')
-        {
-            wmove(a1, 1, 45);
-            waddrawch(a1, ' ');
-            wmove(a1, 1, 46);
-            waddrawch(a1, ' ');
-            wrefresh(a1);
-        }
+            delete_char(a1, 1, 45, 2);
     } while (ch != 'y');
     return atoi(info);
 }
@@ -49,15 +43,7 @@ int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, int pair_num)
         wrefresh(a1);
         ch = wgetch(sub1);
         if (ch == 'n')
-        {
-            wmove(a1, 2, 45);
-            waddrawch(a1, ' ');
-            wmove(a1, 2, 46);
-            waddrawch(a1, ' ');
-            wmove(a1, 2, 47);
-            waddrawch(a1, ' ');
-            wrefresh(a1);
-        }
+            delete_char(a1, 2, 45, 3);
     } while (ch != 'y');
     return atoi(info);
 }
@@ -81,15 +67,7 @@ int enter_data_thick_parts_head(WINDOW *sub1, WINDOW *a1, int pair_num)
         wrefresh(a1);
         ch = wgetch(sub1);
         if (ch == 'n')
-        {
-            wmove(a1, 4, 45);
-            waddrawch(a1, ' ');
-            wmove(a1, 4, 46);
-            waddrawch(a1, ' ');
-            wmove(a1, 4, 47);
-            waddrawch(a1, ' ');
-            wrefresh(a1);
-        }
+            delete_char(a1, 4, 45, 3);
     } while (ch != 'y');
     return atoi(info);
 }
@@ -113,15 +91,7 @@ int enter_data_thick_part_nut(WINDOW *sub1, WINDOW *a1, int pair_num)
         wrefresh(a1);
         ch = wgetch(sub1);
         if (ch == 'n')
-        {
-            wmove(a1, 5, 45);
-            waddrawch(a1, ' ');
-            wmove(a1, 5, 46);
-            waddrawch(a1, ' ');
-            wmove(a1, 5, 47);
-            waddrawch(a1, ' ');
-            wrefresh(a1);
-        }
+            delete_char(a1, 5, 45, 3);
     } while (ch != 'y');
     return atoi(info);
 }
@@ -145,11 +115,7 @@ int enter_data_number_wash_head(WINDOW *sub1, WINDOW *a1, int pair_num)
         wrefresh(a1);
         ch = wgetch(sub1);
         if (ch == 'n')
-        {
-            wmove(a1, 7, 45);
-            waddrawch(a1, ' ');
-            wrefresh(a1);
-        }
+            delete_char(a1, 7, 45, 1);
     } while (ch != 'y');
     return atoi(info);
 }
@@ -173,11 +139,17 @@ int enter_data_number_wash_nut(WINDOW *sub1, WINDOW *a1, int pair_num)
         wrefresh(a1);
         ch = wgetch(sub1);
         if (ch == 'n')
-        {
-            wmove(a1, 8, 45);
-            waddrawch(a1, ' ');
-            wrefresh(a1);
-        }
+            delete_char(a1, 8, 45, 1);
     } while (ch != 'y');
     return atoi(info);
+}
+
+void delete_char(WINDOW *w, int row, int column, int count_ch)
+{
+    for (int i = 0; i < count_ch; i++)
+    {
+        wmove(w, row, column++);
+        waddrawch(w, ' ');
+        wrefresh(w);
+    }
 }
