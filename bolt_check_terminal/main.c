@@ -12,31 +12,19 @@
 #define USER6 105
 #define USER7 106
 
+
 int main(void)
 {
-    WINDOW *sub1, *a, *b, *c;
+    WINDOW *sub1, *a, *a1, *b, *c;
     int maxx, maxy, halfx, halfy;
-    int bolt_diam_num = 0;               // диаметр болта
-    int bolt_length_num = 0;             // длина болта
-    int thick_parts_head_num = 0;        // толщина деталей (детали) под головкой болта
-    int thick_part_nut_num = 0;          // толщина детали под гайкой
-    int number_wash_head_num = 0;        // количество шайб под головкой болта
-    int number_wash_nut_num = 0;         // количество шайб под гайками
+    int bolt_diam = 0;                  // диаметр болта
+    int bolt_length = 0;                // длина болта
+    int thick_parts_head = 0;           // толщина деталей (детали) под головкой болта
+    int thick_part_nut = 0;             // толщина детали под гайкой
+    int number_wash_head = 0;           // количество шайб под головкой болта
+    int number_wash_nut = 0;            // количество шайб под гайками
 
-    char bolt_diam[] = "1. Enter bolt diameter: ";
-    char bolt_diam_result[] = "Bolt diameter is %s.";
-    char bolt_length[] = "2. Enter bolt length: ";
-    char bolt_length_result[] = "Bolt length is %s.";
-    char thick_parts_head[] = "3. Thickness of parts under the head: ";
-    char thick_parts_head_result[] = "Thickness of parts under the head is %s.";
-    char thick_part_nut[] = "4. Thickness of the part under the nut: ";
-    char thick_part_nut_result[] = "Thickness of the part under the nut is %s.";
-    char number_wash_head[] = "5. Number of washers under the bolt head: ";
-    char number_wash_head_result[] = "Number of washers under the bolt head is %s. ";
-    char number_wash_nut[] = "6. Number of washers under nuts: ";
-    char number_wash_nut_result[] = "Number of washers under nuts is %s. ";
-
-    char info[5];
+    // Количество soft labels
     char label_text[LMAX][8] = {"HELP", "RESET", "CALC", "EXIT"};
     int label;
 
@@ -71,9 +59,11 @@ int main(void)
     // создаем доп. окна
     sub1 = subwin(stdscr, LINES - 26, COLS - 2, 1, 1);
     a = subwin(stdscr, 2 * halfy - 4, halfx - 1, 3, 1);
+    a1 = subwin(stdscr, 2 * halfy - 8, halfx - 2, 4, 3);
     b = subwin(stdscr, halfy - 2, halfx - 1, 3, halfx);
     c = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, halfx);
-    if (sub1 == NULL || a == NULL || b == NULL || c == NULL)
+
+    if (sub1 == NULL || a == NULL || a1 == NULL || b == NULL || c == NULL)
     {
         endwin();
         puts("Unable to create subwindow");
@@ -93,16 +83,26 @@ int main(void)
 
     // Пишем в каждом доп. окне
     wbkgd(a, COLOR_PAIR(2));
+    wbkgd(a1, COLOR_PAIR(2));
     wbkgd(b, COLOR_PAIR(2));
     wbkgd(c, COLOR_PAIR(2));
     box(a, 0, 0);
     box(b, 0, 0);
     box(c, 0, 0);
     mvwaddstr(a, 0, 2, " Entered data ");
+    mvwaddstr(a1, 5, 5, "BOLT DIAMETER");
+    mvwaddstr(a1, 7, 5, "BOLT LENGTH");
+    mvwaddstr(a1, 9, 5, "THICKNESS OF PARTS UNDER THE HEAD");
+    mvwaddstr(a1, 11, 5, "THICKNESS OF THE PARTS UNDER THE NUT");
+    mvwaddstr(a1, 13, 5, "NUMBER OF WASHERS UNDER THE BOLT HEAD");
+    mvwaddstr(a1, 15, 5, "NUMBER OF WASHERS UNDER NUTS");
+    //wmove(a1, 2, 3);
+    //wprintw(a1, "BOLT DIAMETER");
     mvwaddstr(b, 0, 2, " Thread location and bolt end length ");
     mvwaddstr(c, 0, 2, " Test ");
 
     wrefresh(a);
+    wrefresh(a1);
     wrefresh(b);
     wrefresh(c);
 
@@ -112,27 +112,27 @@ int main(void)
     refresh();
 
     // 1. Вводим диаметр болта
-    enter_data(sub1, info, bolt_diam, bolt_diam_result, 8); // был 2
+    bolt_diam = enter_data_bolt_diam(sub1, a1, 8);
     refresh();
 
     // 2. Вводим длину болта
-    enter_data(sub1, info, bolt_length, bolt_length_result, 4);
+    bolt_length = enter_data_bolt_length(sub1, a1, 4);
     refresh();
 
     // 3. Вводим толщину деталей (детали) под головкой болта
-    enter_data(sub1, info, thick_parts_head, thick_parts_head_result, 5);
+    thick_parts_head = enter_data_thick_parts_head(sub1, a1, 5);
     refresh();
 
     // 4. Вводим толщину детали под гайкой
-    enter_data(sub1, info, thick_part_nut, thick_part_nut_result, 3);
+    thick_part_nut = enter_data_thick_part_nut(sub1, a1, 3);
     refresh();
 
     // 5. Вводим количество шайб под головкой болта
-    enter_data(sub1, info, number_wash_head, number_wash_head_result, 6);
+    number_wash_head = enter_data_number_wash_head(sub1, a1, 6);
     refresh();
 
     // 6. Вводим количество шайб под гайкой
-    enter_data(sub1, info, number_wash_nut, number_wash_nut_result, 7);
+    number_wash_nut = enter_data_number_wash_nut(sub1, a1, 7);
     refresh();
 
     getch();
