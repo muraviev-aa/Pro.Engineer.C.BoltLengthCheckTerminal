@@ -65,7 +65,8 @@ int main(void)
     d = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, 1);
     d1 = subwin(stdscr, halfy - 5, halfx - 2, halfy + 2, 3);
 
-    if (sub1 == NULL || a == NULL || a1 == NULL || b == NULL || c == NULL || d == NULL || d1 == NULL)
+    if (sub1 == NULL || a == NULL || a1 == NULL || b == NULL
+        || c == NULL || d == NULL || d1 == NULL)
     {
         endwin();
         puts("Unable to create subwindow");
@@ -101,8 +102,6 @@ int main(void)
     mvwaddstr(a1, 5, 5, "THICKNESS OF THE PARTS UNDER THE NUT");
     mvwaddstr(a1, 7, 5, "NUMBER OF WASHERS UNDER THE BOLT HEAD");
     mvwaddstr(a1, 8, 5, "NUMBER OF WASHERS UNDER NUTS");
-    //wmove(a1, 2, 3);
-    //wprintw(a1, "BOLT DIAMETER");
     mvwaddstr(b, 0, 1, " b) Thread location and bolt end length ");
     mvwaddstr(c, 0, 1, " c) Result ");
     mvwaddstr(d, 0, 1, " d) GOST 7798-70, GOST 11371-78, GOST 5915-70 ");

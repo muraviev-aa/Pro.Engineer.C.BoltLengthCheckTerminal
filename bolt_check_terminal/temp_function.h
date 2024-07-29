@@ -8,7 +8,7 @@
 #include <curses.h>
 
 // Ввод диаметра болта
-int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a, int pair_num);
+int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, int pair_num);
 
 // Ввод длины болта
 int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, int pair_num);
