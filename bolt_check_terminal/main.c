@@ -6,16 +6,23 @@
 #define PINK 100
 #define USER1 101
 #define USER2 102
-#define USER3 0 // фоновый цвет soft labels
+#define USER3 0     // фоновый цвет soft labels
 #define USER4 103
 #define USER5 104
 #define USER6 105
 #define USER7 106
+#define SIZE 8      // число строк в файле
 
 
 int main(void)
 {
     WINDOW *sub1, *a, *a1, *b, *c, *d, *d1;
+    bolt *info = (bolt *) malloc(SIZE * sizeof(bolt));
+    if (!info)
+        printf("Error while allocating memory!\n");
+    FILE *fptr;
+    char file_name[] = "7798.csv";
+    int count;   // количество строк в файле
     int maxx, maxy, halfx, halfy;
     int bolt_diam = 0;                  // диаметр болта
     int bolt_length = 0;                // длина болта
@@ -105,11 +112,8 @@ int main(void)
     mvwaddstr(b, 0, 1, " b) Thread location and bolt end length ");
     mvwaddstr(c, 0, 1, " c) Result ");
     mvwaddstr(d, 0, 1, " d) GOST 7798-70, GOST 11371-78, GOST 5915-70 ");
-    mvwaddstr(d1, 1, 5, "WASHER THICKNESS");
-    mvwaddstr(d1, 3, 5, "NUT HEIGHT");
-    mvwaddstr(d1, 5, 5, "THREAD LENGTH");
-    mvwaddstr(d1, 7, 5, "THREAD PITCH");
-    mvwaddstr(d1, 9, 5, "CHAMFER");
+    wmove(d1, 3, 1);
+    wprintw(d1, "%s%11s%11s%13s%9s", "WashThick", "NutHeight", "ThreadLen", "ThreadPitch", "Chamfer");
 
     wrefresh(a);
     wrefresh(a1);
@@ -123,8 +127,13 @@ int main(void)
     box(stdscr, 0, 0);
     refresh();
 
+    // Работа с файлом
+    open_file(&fptr, file_name);
+    count = read_data_file(&fptr, info);
+    fclose(fptr);
+
     // 1. Вводим диаметр болта
-    bolt_diam = enter_data_bolt_diam(sub1, a1, 8);
+    bolt_diam = enter_data_bolt_diam(sub1, a1, d1, 8, info, count);
     refresh();
 
     // 2. Вводим длину болта
@@ -149,6 +158,7 @@ int main(void)
 
     getch();
 
+    free(info);
     endwin();
     return 0;
 }
