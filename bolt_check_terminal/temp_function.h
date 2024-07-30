@@ -64,4 +64,7 @@ void delete_char(WINDOW *w, int row, int column, int count_ch);
 // Определяем расположение резьбы
 int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr);
 
+// Определяем длину кончика болта, выступающего из гайки
+int bolt_tip_check(WINDOW *b1, bolt info[], int number, const int *arr);
+
 #endif //BOLT_CHECK_TERMINAL_TEMP_FUNCTION_H

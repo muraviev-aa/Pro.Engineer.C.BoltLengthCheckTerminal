@@ -98,6 +98,31 @@ int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr)
     return 0;
 }
 
+// Проверка 3: проверка длины конца болта (не менее одного полного витка резьбы + фаска)
+int bolt_tip_check(WINDOW *b1, bolt info[], int number, const int *arr)
+{
+    double bolt_tip;
+    for (int i = 0; i < number; i++)
+    {
+        if (info[i].bolt_name == arr[0])
+        {
+            bolt_tip = arr[1] - info[i].washer_thickness * arr[4] - arr[2] - arr[3] -
+                       info[i].washer_thickness * arr[5] - 2 * info[i].nut_height;
+            wmove(b1, 5, 18);
+            wprintw(b1, "Bolt tip is %.1f", bolt_tip);
+            wrefresh(b1);
+            if (bolt_tip < info[i].thread_pitch + info[i].chamfer)
+            {
+                wmove(b1, 6, 16);
+                wprintw(b1, "!!! Short bolt tip !!!");
+                wrefresh(b1);
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info[], int number)
 {
     int ch;

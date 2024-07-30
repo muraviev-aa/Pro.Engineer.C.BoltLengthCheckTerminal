@@ -70,7 +70,7 @@ int main(void)
     a = subwin(stdscr, halfy - 2, halfx - 1, 3, 1);
     a1 = subwin(stdscr, halfy - 5, halfx - 2, 4, 3);
     b = subwin(stdscr, halfy - 2, halfx - 1, 3, halfx);
-    b1 = subwin(stdscr, halfy - 5, halfx - 2, 4, halfx +2);
+    b1 = subwin(stdscr, halfy - 5, halfx - 2, 4, halfx + 2);
     c = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, halfx);
     d = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, 1);
     d1 = subwin(stdscr, halfy - 5, halfx - 2, halfy + 2, 3);
@@ -163,11 +163,14 @@ int main(void)
     connect_package[5] = enter_data_number_wash_nut(sub1, a1, 7);
     refresh();
 
-    // Заполняем массив под входные данные
-
+    // Проверяем место нахождения резьбы
     result1_2 = bolt_check_thread(b1, info, count, connect_package);
     refresh();
-    //printf("%d", result1_2);
+
+    // Проверяем длину кончика болта, выступающего из гайки
+    result3 = bolt_tip_check(b1, info, count, connect_package);
+    refresh();
+
 
     getch();
 
