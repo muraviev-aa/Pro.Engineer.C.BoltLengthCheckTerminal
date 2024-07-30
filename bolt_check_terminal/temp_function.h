@@ -17,6 +17,16 @@ typedef struct
     double chamfer;               // фаска
 } bolt;
 
+/* Массив под входные данные
+ * connect_package[0] - диаметр болта
+ * connect_package[1] - длина болта
+ * connect_package[2] - толщина детали (деталей) под головкой болта
+ * connect_package[3] - толщина детали под гайкой
+ * connect_package[4] - количество шайб под головкой болта
+ * connect_package[5] - количество шайб под гайкой
+*/
+extern int connect_package[6];
+
 // Открыть файл
 int open_file(FILE **fptr, char *name_file);
 
@@ -48,7 +58,10 @@ int enter_data_number_wash_head(WINDOW *sub1, WINDOW *a1, int pair_num);
 // Ввод количества шайб под гайкой
 int enter_data_number_wash_nut(WINDOW *sub1, WINDOW *a1, int pair_num);
 
-// Удаляем неверно введенные символы
+// Удаляем символы
 void delete_char(WINDOW *w, int row, int column, int count_ch);
+
+// Определяем расположение резьбы
+int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr);
 
 #endif //BOLT_CHECK_TERMINAL_TEMP_FUNCTION_H

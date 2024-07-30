@@ -13,16 +13,18 @@
 #define USER7 106
 #define SIZE 8      // число строк в файле
 
+int connect_package[6];
 
 int main(void)
 {
-    WINDOW *sub1, *a, *a1, *b, *c, *d, *d1;
+    WINDOW *sub1, *a, *a1, *b, *b1, *c, *d, *d1;
     bolt *info = (bolt *) malloc(SIZE * sizeof(bolt));
     if (!info)
         printf("Error while allocating memory!\n");
     FILE *fptr;
     char file_name[] = "7798.csv";
     int count;   // количество строк в файле
+    int result1_2, result3;
     int maxx, maxy, halfx, halfy;
     int bolt_diam = 0;                  // диаметр болта
     int bolt_length = 0;                // длина болта
@@ -68,11 +70,12 @@ int main(void)
     a = subwin(stdscr, halfy - 2, halfx - 1, 3, 1);
     a1 = subwin(stdscr, halfy - 5, halfx - 2, 4, 3);
     b = subwin(stdscr, halfy - 2, halfx - 1, 3, halfx);
+    b1 = subwin(stdscr, halfy - 5, halfx - 2, 4, halfx +2);
     c = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, halfx);
     d = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, 1);
     d1 = subwin(stdscr, halfy - 5, halfx - 2, halfy + 2, 3);
 
-    if (sub1 == NULL || a == NULL || a1 == NULL || b == NULL
+    if (sub1 == NULL || a == NULL || a1 == NULL || b == NULL || b1 == NULL
         || c == NULL || d == NULL || d1 == NULL)
     {
         endwin();
@@ -95,6 +98,7 @@ int main(void)
     wbkgd(a, COLOR_PAIR(2));
     wbkgd(a1, COLOR_PAIR(2));
     wbkgd(b, COLOR_PAIR(2));
+    wbkgd(b1, COLOR_PAIR(2));
     wbkgd(c, COLOR_PAIR(2));
     wbkgd(d, COLOR_PAIR(2));
     wbkgd(d1, COLOR_PAIR(2));
@@ -114,10 +118,13 @@ int main(void)
     mvwaddstr(d, 0, 1, " d) GOST 7798-70, GOST 11371-78, GOST 5915-70 ");
     wmove(d1, 3, 1);
     wprintw(d1, "%s%11s%11s%13s%9s", "WashThick", "NutHeight", "ThreadLen", "ThreadPitch", "Chamfer");
+    /*wmove(b1, 1, 1);
+    wprintw(b1, "TEST");*/
 
     wrefresh(a);
     wrefresh(a1);
     wrefresh(b);
+    wrefresh(b1);
     wrefresh(c);
     wrefresh(d);
     wrefresh(d1);
@@ -133,28 +140,34 @@ int main(void)
     fclose(fptr);
 
     // 1. Вводим диаметр болта
-    bolt_diam = enter_data_bolt_diam(sub1, a1, d1, 8, info, count);
+    connect_package[0] = enter_data_bolt_diam(sub1, a1, d1, 8, info, count);
     refresh();
 
     // 2. Вводим длину болта
-    bolt_length = enter_data_bolt_length(sub1, a1, 4);
+    connect_package[1] = enter_data_bolt_length(sub1, a1, 4);
     refresh();
 
     // 3. Вводим толщину деталей (детали) под головкой болта
-    thick_parts_head = enter_data_thick_parts_head(sub1, a1, 5);
+    connect_package[2] = enter_data_thick_parts_head(sub1, a1, 5);
     refresh();
 
     // 4. Вводим толщину детали под гайкой
-    thick_part_nut = enter_data_thick_part_nut(sub1, a1, 3);
+    connect_package[3] = enter_data_thick_part_nut(sub1, a1, 3);
     refresh();
 
     // 5. Вводим количество шайб под головкой болта
-    number_wash_head = enter_data_number_wash_head(sub1, a1, 6);
+    connect_package[4] = enter_data_number_wash_head(sub1, a1, 6);
     refresh();
 
     // 6. Вводим количество шайб под гайкой
-    number_wash_nut = enter_data_number_wash_nut(sub1, a1, 7);
+    connect_package[5] = enter_data_number_wash_nut(sub1, a1, 7);
     refresh();
+
+    // Заполняем массив под входные данные
+
+    result1_2 = bolt_check_thread(b1, info, count, connect_package);
+    refresh();
+    //printf("%d", result1_2);
 
     getch();
 

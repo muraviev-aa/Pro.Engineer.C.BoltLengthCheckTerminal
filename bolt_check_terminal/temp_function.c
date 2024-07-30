@@ -1,4 +1,5 @@
 #include "temp_function.h"
+#include <math.h>
 
 int open_file(FILE **fptr, char *name_file)
 {
@@ -35,6 +36,7 @@ int read_data_file(FILE **fptr, bolt info[])
     return count;
 }
 
+// Данные из ГОСТ в доп. окне d1
 void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_diam)
 {
     for (int i = 0; i < number; i++)
@@ -47,6 +49,53 @@ void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_di
             wrefresh(d1);
         }
     }
+}
+
+// Проверка 1: резьба в детали (превышение 0.5t крайней к гайке детали)
+// Проверка 2: резьба в шайбе (возможность закрутить гайку)
+// Строки в доп. окне b1
+int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr)
+{
+    double thread_result;
+    for (int i = 0; i < number; i++)
+    {
+        if (info[i].bolt_name == arr[0])
+        {
+            thread_result = arr[4] * info[i].washer_thickness + arr[2] + arr[3] - arr[1] + info[i].thread_length;
+            if (thread_result > 0) // резьба в крайней к гайке детали
+            {
+                wmove(b1, 2, 16);
+                wprintw(b1, "Thread in detail %.1f", fabs(thread_result));
+                wrefresh(b1);
+                if (thread_result > 0.5 * arr[3])
+                {
+                    wmove(b1, 3, 9);
+                    wprintw(b1, "!!! The thread goes into the part !!!");
+                    wrefresh(b1);
+                    return 1;
+                }
+            } else if (thread_result < 0) // резьба в шайбе
+            {
+                wmove(b1, 2, 16);
+                wprintw(b1, "Thread in washer %.1f ", fabs(thread_result));
+                wrefresh(b1);
+                if (fabs(thread_result) > arr[5] * info[i].washer_thickness)
+                {
+                    printf("!!! Do not tighten the nut !!!");
+                    wmove(b1, 3, 12);
+                    wprintw(b1, "!!! Do not tighten the nut !!!");
+                    wrefresh(b1);
+                    return 2;
+                }
+            } else if (thread_result == 0) // резьба на границе деталей
+            {
+                wmove(b1, 2, 0);
+                wprintw(b1, "Thread at the interface between the part and the washer");
+                wrefresh(b1);
+            }
+        }
+    }
+    return 0;
 }
 
 int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info[], int number)
