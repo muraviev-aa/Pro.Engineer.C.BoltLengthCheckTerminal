@@ -34,7 +34,7 @@ int main(void)
     int number_wash_nut = 0;            // количество шайб под гайками
 
     // Количество soft labels
-    char label_text[LMAX][8] = {"HELP", "RESET", "CALC", "EXIT"};
+    char label_text[LMAX][8] = {"HELP", "RESET", "ABOUT", "EXIT"};
     int label;
 
     slk_init(3);
