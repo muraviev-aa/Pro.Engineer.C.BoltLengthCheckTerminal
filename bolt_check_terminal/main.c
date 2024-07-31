@@ -17,7 +17,7 @@ int connect_package[6];
 
 int main(void)
 {
-    WINDOW *sub1, *a, *a1, *b, *b1, *c, *d, *d1;
+    WINDOW *sub1, *a, *a1, *b, *b1, *c, *c1, *d, *d1;
     bolt *info = (bolt *) malloc(SIZE * sizeof(bolt));
     if (!info)
         printf("Error while allocating memory!\n");
@@ -55,35 +55,36 @@ int main(void)
     init_color(USER7, 1000, 990, 0);       // использован
     slk_color(0);
 
-    // soft labels
+    // Soft labels
     for (label = 0; label < LMAX; label++)
         slk_set(label + 1, label_text[label], CENTER);
     slk_refresh();
 
-    // определяем размеры и положение доп. окон
+    // Определяем размеры и положение доп. окон
     getmaxyx(stdscr, maxy, maxx);
     halfx = maxx >> 1;
     halfy = maxy >> 1;
 
-    // создаем доп. окна
+    // Создаем доп. окна
     sub1 = subwin(stdscr, LINES - 26, COLS - 2, 1, 1);
     a = subwin(stdscr, halfy - 2, halfx - 1, 3, 1);
-    a1 = subwin(stdscr, halfy - 5, halfx - 2, 4, 3);
+    a1 = subwin(stdscr, halfy - 5, halfx - 3, 4, 3);
     b = subwin(stdscr, halfy - 2, halfx - 1, 3, halfx);
     b1 = subwin(stdscr, halfy - 5, halfx - 2, 4, halfx + 2);
     c = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, halfx);
+    c1 = subwin(stdscr, halfy - 5, halfx - 2, halfy + 2, halfx + 2);
     d = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, 1);
-    d1 = subwin(stdscr, halfy - 5, halfx - 2, halfy + 2, 3);
+    d1 = subwin(stdscr, halfy - 5, halfx - 2, halfy + 2, 2);
 
     if (sub1 == NULL || a == NULL || a1 == NULL || b == NULL || b1 == NULL
-        || c == NULL || d == NULL || d1 == NULL)
+        || c == NULL || c1 == NULL || d == NULL || d1 == NULL)
     {
         endwin();
         puts("Unable to create subwindow");
         return (1);
     }
 
-    // создание цветовых пар
+    // Создание цветовых пар
     start_color();
     init_pair(1, COLOR_BLUE, COLOR_WHITE);     // базовое окно базовый белый
     init_pair(2, COLOR_WHITE, COLOR_BLUE);     // базовый синий
@@ -100,6 +101,7 @@ int main(void)
     wbkgd(b, COLOR_PAIR(2));
     wbkgd(b1, COLOR_PAIR(2));
     wbkgd(c, COLOR_PAIR(2));
+    wbkgd(c1, COLOR_PAIR(2));
     wbkgd(d, COLOR_PAIR(2));
     wbkgd(d1, COLOR_PAIR(2));
     box(a, 0, 0);
@@ -118,27 +120,30 @@ int main(void)
     mvwaddstr(d, 0, 1, " d) GOST 7798-70, GOST 11371-78, GOST 5915-70 ");
     wmove(d1, 3, 1);
     wprintw(d1, "%s%11s%11s%13s%9s", "WashThick", "NutHeight", "ThreadLen", "ThreadPitch", "Chamfer");
-    /*wmove(b1, 1, 1);
-    wprintw(b1, "TEST");*/
+    /*wmove(c1, 1, 1);
+    wprintw(c1, "TEST");*/
 
     wrefresh(a);
     wrefresh(a1);
     wrefresh(b);
     wrefresh(b1);
     wrefresh(c);
+    wrefresh(c1);
     wrefresh(d);
     wrefresh(d1);
 
-    // базовое окно терминала
+    // Базовое окно терминала
     bkgd(COLOR_PAIR(1));
     box(stdscr, 0, 0);
     refresh();
 
+    /* Работа с доп. окном d) */
     // Работа с файлом
     open_file(&fptr, file_name);
     count = read_data_file(&fptr, info);
     fclose(fptr);
 
+    /* Работа с доп. окном a) */
     // 1. Вводим диаметр болта
     connect_package[0] = enter_data_bolt_diam(sub1, a1, d1, 8, info, count);
     refresh();
@@ -163,6 +168,7 @@ int main(void)
     connect_package[5] = enter_data_number_wash_nut(sub1, a1, 7);
     refresh();
 
+    /* Работа с доп. окном b) */
     // Проверяем место нахождения резьбы
     result1_2 = bolt_check_thread(b1, info, count, connect_package);
     refresh();
@@ -171,6 +177,9 @@ int main(void)
     result3 = bolt_tip_check(b1, info, count, connect_package);
     refresh();
 
+    /* Работа с доп. окном c) */
+    print_result_check(c1, result1_2, result3);
+    refresh();
 
     getch();
 

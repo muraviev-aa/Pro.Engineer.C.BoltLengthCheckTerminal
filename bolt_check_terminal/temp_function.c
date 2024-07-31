@@ -108,7 +108,7 @@ int bolt_tip_check(WINDOW *b1, bolt info[], int number, const int *arr)
         {
             bolt_tip = arr[1] - info[i].washer_thickness * arr[4] - arr[2] - arr[3] -
                        info[i].washer_thickness * arr[5] - 2 * info[i].nut_height;
-            wmove(b1, 5, 18);
+            wmove(b1, 5, 19);
             wprintw(b1, "Bolt tip is %.1f", bolt_tip);
             wrefresh(b1);
             if (bolt_tip < info[i].thread_pitch + info[i].chamfer)
@@ -121,6 +121,51 @@ int bolt_tip_check(WINDOW *b1, bolt info[], int number, const int *arr)
         }
     }
     return 0;
+}
+
+// Вывод результатов проверки
+void print_result_check(WINDOW *c1, int res1_2, int res3)
+{
+    wmove(c1, 3, 1);
+    wprintw(c1, "%15s%20s%17s", "ThreadRequirement", "TighteningNut", "TipCheck");
+    wrefresh(c1);
+    if (res1_2 == 0 && res3 == 0)
+    {
+        //printf("\t%18s%18s%18s\n", "YES", "YES", "YES");
+        wmove(c1, 4, 1);
+        wprintw(c1, "%17s%20s%17s", "YES", "YES", "YES");
+        wrefresh(c1);
+    } else if (res1_2 == 0 && res3 == 1)
+    {
+        //printf("\t%18s%18s%18s\n", "YES", "YES", "NO");
+        wmove(c1, 4, 1);
+        wprintw(c1, "%17s%20s%17s", "YES", "YES", "NO");
+        wrefresh(c1);
+    } else if (res1_2 == 1 && res3 == 0)
+    {
+        //printf("\t%18s%18s%18s\n", "NO", "YES", "YES");
+        wmove(c1, 4, 1);
+        wprintw(c1, "%17s%20s%17s", "NO", "YES", "YES");
+        wrefresh(c1);
+    } else if (res1_2 == 1 && res3 == 1)
+    {
+        //printf("\t%18s%18s%18s\n", "NO", "YES", "NO");
+        wmove(c1, 4, 1);
+        wprintw(c1, "%17s%20s%17s", "NO", "YES", "NO");
+        wrefresh(c1);
+    } else if (res1_2 == 2 && res3 == 0)
+    {
+        //printf("\t%18s%18s%18s\n", "YES", "NO", "YES");
+        wmove(c1, 4, 1);
+        wprintw(c1, "%17s%20s%17s", "YES", "NO", "YES");
+        wrefresh(c1);
+    } else if (res1_2 == 2 && res3 == 1)
+    {
+        //printf("\t%18s%18s%18s\n", "YES", "NO", "NO");
+        wmove(c1, 4, 1);
+        wprintw(c1, "%17s%20s%17s", "YES", "NO", "NO");
+        wrefresh(c1);
+    }
 }
 
 int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info[], int number)
