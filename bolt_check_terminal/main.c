@@ -24,6 +24,7 @@ int main(void)
     FILE *fptr;
     char file_name[] = "7798.csv";
     int count;   // количество строк в файле
+    int ch;      // для работы с клавишами
     int result1_2, result3;
     int maxx, maxy, halfx, halfy;
     int bolt_diam = 0;                  // диаметр болта
@@ -39,6 +40,7 @@ int main(void)
 
     slk_init(3);
     initscr();
+    keypad(stdscr, TRUE);   // включили чтение клавиш
     refresh();
 
     start_color();
@@ -120,8 +122,6 @@ int main(void)
     mvwaddstr(d, 0, 1, " d) GOST 7798-70, GOST 11371-78, GOST 5915-70 ");
     wmove(d1, 3, 1);
     wprintw(d1, "%s%11s%11s%13s%9s", "WashThick", "NutHeight", "ThreadLen", "ThreadPitch", "Chamfer");
-    /*wmove(c1, 1, 1);
-    wprintw(c1, "TEST");*/
 
     wrefresh(a);
     wrefresh(a1);
@@ -181,9 +181,17 @@ int main(void)
     print_result_check(c1, result1_2, result3);
     refresh();
 
-    getch();
-
+    // Освобождаем память
     free(info);
+
+    /* Закрываем окно по нажатию клавиши F4 */
+    if (getch() == KEY_F(4))
+    {
+        endwin();
+        exit(0);
+    }
+
+    getch();
     endwin();
     return 0;
 }
