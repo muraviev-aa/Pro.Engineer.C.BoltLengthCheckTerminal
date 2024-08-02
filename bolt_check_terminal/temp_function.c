@@ -170,8 +170,42 @@ void print_result_check(WINDOW *c1, int res1_2, int res3)
 
 int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info[], int number)
 {
-    int ch;
+    int ch, ch1;
     char info_diam[3];
+    do
+    {
+        wclear(sub1);
+        wbkgd(sub1, COLOR_PAIR(pair_num));
+        box(stdscr, 0, 0);
+        wmove(sub1, 0, 1);
+        waddstr(sub1, "<F1 HELP> <F2 RESET> <F3 ABOUT> <F4 EXIT>   To continue, press ENTER twice");
+        do
+        {
+            ch = getch();
+            switch(ch)
+            {
+                case KEY_F(1):
+                    // help in progress
+                    break;
+                case KEY_F(2):
+                    // reset in progress
+                    break;
+                case KEY_F(3):
+                    // about in progress
+                    break;
+                case KEY_F(4):
+                    free(info);
+                    endwin();
+                    exit(0);
+                default:
+                    break;
+            }
+            wrefresh(sub1);
+            refresh();
+        } while(ch != '\n');
+        ch1 = wgetch(sub1);
+    } while (ch1 != '\n');
+
     do
     {
         wclear(sub1);
