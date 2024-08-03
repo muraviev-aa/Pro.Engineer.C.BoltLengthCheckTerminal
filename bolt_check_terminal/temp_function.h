@@ -40,6 +40,9 @@ int read_data_file(FILE **fptr, bolt info[]);
 // Печатаем размеры болта, гайки и шайбы из ГОСТ
 void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_diam);
 
+// Работаем с горячими клавишами
+void enter_hotkeys(WINDOW *sub1, int pair_num);
+
 // Ввод диаметра болта
 int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info[], int number);
 

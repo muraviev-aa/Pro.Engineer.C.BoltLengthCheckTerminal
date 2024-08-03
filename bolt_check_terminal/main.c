@@ -143,6 +143,9 @@ int main(void)
     count = read_data_file(&fptr, info);
     fclose(fptr);
 
+    /* Работаем с горячими клавишами*/
+    enter_hotkeys(sub1, 8);
+
     /* Работа с доп. окном a) */
     // 1. Вводим диаметр болта
     connect_package[0] = enter_data_bolt_diam(sub1, a1, d1, 8, info, count);

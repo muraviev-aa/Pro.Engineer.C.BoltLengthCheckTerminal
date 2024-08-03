@@ -131,48 +131,80 @@ void print_result_check(WINDOW *c1, int res1_2, int res3)
     wrefresh(c1);
     if (res1_2 == 0 && res3 == 0)
     {
-        //printf("\t%18s%18s%18s\n", "YES", "YES", "YES");
         wmove(c1, 4, 1);
         wprintw(c1, "%17s%20s%17s", "YES", "YES", "YES");
         wrefresh(c1);
     } else if (res1_2 == 0 && res3 == 1)
     {
-        //printf("\t%18s%18s%18s\n", "YES", "YES", "NO");
         wmove(c1, 4, 1);
         wprintw(c1, "%17s%20s%17s", "YES", "YES", "NO");
         wrefresh(c1);
     } else if (res1_2 == 1 && res3 == 0)
     {
-        //printf("\t%18s%18s%18s\n", "NO", "YES", "YES");
         wmove(c1, 4, 1);
         wprintw(c1, "%17s%20s%17s", "NO", "YES", "YES");
         wrefresh(c1);
     } else if (res1_2 == 1 && res3 == 1)
     {
-        //printf("\t%18s%18s%18s\n", "NO", "YES", "NO");
         wmove(c1, 4, 1);
         wprintw(c1, "%17s%20s%17s", "NO", "YES", "NO");
         wrefresh(c1);
     } else if (res1_2 == 2 && res3 == 0)
     {
-        //printf("\t%18s%18s%18s\n", "YES", "NO", "YES");
         wmove(c1, 4, 1);
         wprintw(c1, "%17s%20s%17s", "YES", "NO", "YES");
         wrefresh(c1);
     } else if (res1_2 == 2 && res3 == 1)
     {
-        //printf("\t%18s%18s%18s\n", "YES", "NO", "NO");
         wmove(c1, 4, 1);
         wprintw(c1, "%17s%20s%17s", "YES", "NO", "NO");
         wrefresh(c1);
     }
 }
 
+void enter_hotkeys(WINDOW *sub1, int pair_num)
+{
+    int ch;
+    do
+    {
+        ch = wgetch(sub1);
+        wclear(sub1);
+        wbkgd(sub1, COLOR_PAIR(pair_num));
+        box(stdscr, 0, 0);
+        wmove(sub1, 0, 1);
+        waddstr(sub1, "Enter hotkeys: <F1> - HELP;  <F2> - RESET;  <F3> - ABOUT;  <F4> - EXIT ");
+        wrefresh(sub1);
+        switch (ch)
+        {
+            case KEY_F(1):
+                // in the pipeline
+                wmove(sub1, 1, 1);
+                waddstr(sub1, "<F1> - HELP");
+                break;
+            case KEY_F(2):
+                // in the pipeline
+                wmove(sub1, 1, 1);
+                waddstr(sub1, "<F2> - RESET");
+                break;
+            case KEY_F(3):
+                // in the pipeline
+                wmove(sub1, 1, 1);
+                waddstr(sub1, "<F3> - ABOUT");
+                break;
+            case KEY_F(4):
+                endwin();
+                exit(0);
+            default:
+                break;
+        }
+        refresh();
+    } while (ch != '\n');
+}
+
 int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info[], int number)
 {
     int ch;
     char info_diam[3];
-
     do
     {
         wclear(sub1);
