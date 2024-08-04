@@ -44,7 +44,7 @@ void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_di
         if (info[i].bolt_name == bolt_diam)
         {
             wmove(d1, 4, 1);
-            wprintw(d1, "%9.1f%11.1f%11d%13.1f%9.1f", info[i].washer_thickness, info[i].nut_height,
+            wprintw(d1, "%10.1f%11.1f%11d%13.1f%9.1f", info[i].washer_thickness, info[i].nut_height,
                     info[i].thread_length, info[i].thread_pitch, info[i].chamfer);
             wrefresh(d1);
         }
@@ -172,14 +172,15 @@ void enter_hotkeys(WINDOW *sub1, int pair_num)
         wbkgd(sub1, COLOR_PAIR(pair_num));
         box(stdscr, 0, 0);
         wmove(sub1, 0, 1);
-        waddstr(sub1, "Enter hotkeys: <F1> - HELP;  <F2> - RESET;  <F3> - ABOUT;  <F4> - EXIT ");
+        waddstr(sub1,
+                "Enter hotkeys: <F1> - HELP; <F2> - RESET; <F3> - ABOUT; <F4> - EXIT or press Enter to continue ");
         wrefresh(sub1);
         switch (ch)
         {
             case KEY_F(1):
                 // in the pipeline
                 wmove(sub1, 1, 1);
-                waddstr(sub1, "<F1> - HELP");
+                waddstr(sub1, "To work, you can use the hot keys F1, F2, F3, F4");
                 break;
             case KEY_F(2):
                 // in the pipeline
@@ -187,9 +188,9 @@ void enter_hotkeys(WINDOW *sub1, int pair_num)
                 waddstr(sub1, "<F2> - RESET");
                 break;
             case KEY_F(3):
-                // in the pipeline
                 wmove(sub1, 1, 1);
-                waddstr(sub1, "<F3> - ABOUT");
+                waddstr(sub1, "This is a program for checking bolt length in building structures. "
+                              "Developer Muraviev A.A. Free software licence.");
                 break;
             case KEY_F(4):
                 endwin();

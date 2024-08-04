@@ -120,7 +120,7 @@ int main(void)
     mvwaddstr(b, 0, 1, " b) Thread location and bolt end length ");
     mvwaddstr(c, 0, 1, " c) Result ");
     mvwaddstr(d, 0, 1, " d) GOST 7798-70, GOST 11371-78, GOST 5915-70 ");
-    wmove(d1, 3, 1);
+    wmove(d1, 3, 2);
     wprintw(d1, "%s%11s%11s%13s%9s", "WashThick", "NutHeight", "ThreadLen", "ThreadPitch", "Chamfer");
 
     wrefresh(a);

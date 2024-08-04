@@ -71,6 +71,6 @@ int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr);
 int bolt_tip_check(WINDOW *b1, bolt info[], int number, const int *arr);
 
 // Вывод результатов проверки
-void print_result_check(WINDOW *c1,int res1_2, int res3);
+void print_result_check(WINDOW *c1, int res1_2, int res3);
 
 #endif //BOLT_CHECK_TERMINAL_TEMP_FUNCTION_H
