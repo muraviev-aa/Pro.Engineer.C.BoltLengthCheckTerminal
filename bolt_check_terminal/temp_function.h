@@ -27,6 +27,9 @@ typedef struct
 */
 extern int connect_package[6];
 
+// Массив под длины болтов
+extern int bolt_length[38];
+
 // Открыть файл
 int open_file(FILE **fptr, char *name_file);
 

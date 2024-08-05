@@ -232,7 +232,7 @@ int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bol
 
 int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, int pair_num)
 {
-    int ch;
+    int ch, flag = 0;
     char info[4];
     do
     {
@@ -243,13 +243,23 @@ int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, int pair_num)
         waddstr(sub1, "2. Enter bolt length: ");
         wgetnstr(sub1, info, 3);
         wmove(sub1, 1, 4);
+        for (int i = 0; i < 38; i++)
+        {
+            if (bolt_length[i] == atoi(info))
+                flag++;
+        }
+        if (flag == 0)
+            wprintw(sub1, "!!! Incorrect length !!! ");
         wprintw(sub1, "If the information is correct then press 'y', if incorrect press 'n' ");
         wmove(a1, 2, 45);   // работа с доп. окном a1
         wprintw(a1, "%s", info);
         wrefresh(a1);
         ch = wgetch(sub1);
         if (ch == 'n')
+        {
             delete_char(a1, 2, 45, 3);
+            ch = 0;
+        }
     } while (ch != 'y');
     return atoi(info);
 }
