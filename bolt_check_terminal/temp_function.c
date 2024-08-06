@@ -215,6 +215,17 @@ int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bol
         waddstr(sub1, "1. Enter bolt diameter: ");
         wgetnstr(sub1, info_diam, 2);
         wmove(sub1, 1, 4);
+        if (atoi(info_diam) != 6 && atoi(info_diam) != 8 && atoi(info_diam) != 10
+            && atoi(info_diam) != 12 && atoi(info_diam) != 16 && atoi(info_diam) != 20
+            && atoi(info_diam) != 24 && atoi(info_diam) != 30)
+        {
+            if (atoi(info_diam) == 14 || atoi(info_diam) == 18 || atoi(info_diam) == 22 || atoi(info_diam) == 27)
+                wprintw(sub1, "!!! Not recommended diameter !!! ");
+            else if (atoi(info_diam) == 36 || atoi(info_diam) == 42 || atoi(info_diam) == 48)
+                wprintw(sub1, "!!! Unsupported diameter !!! ");
+            else
+                wprintw(sub1, "!!! Incorrect diameter !!! ");
+        }
         wprintw(sub1, "If the information is correct then press 'y', if incorrect press 'n' ");
         wmove(a1, 1, 45);   // работа с доп. окном a1
         wprintw(a1, "%s", info_diam);
