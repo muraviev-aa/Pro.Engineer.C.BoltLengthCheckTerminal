@@ -214,14 +214,14 @@ int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bol
         wmove(sub1, 0, 1);
         waddstr(sub1, "1. Enter bolt diameter: ");
         wgetnstr(sub1, info_diam, 2);
+        bolt_diam = atoi(info_diam);
         wmove(sub1, 1, 4);
-        if (atoi(info_diam) != 6 && atoi(info_diam) != 8 && atoi(info_diam) != 10
-            && atoi(info_diam) != 12 && atoi(info_diam) != 16 && atoi(info_diam) != 20
-            && atoi(info_diam) != 24 && atoi(info_diam) != 30)
+        if (bolt_diam != 6 && bolt_diam != 8 && bolt_diam != 10 && bolt_diam != 12 && bolt_diam != 16
+            && bolt_diam != 20 && bolt_diam != 24 && bolt_diam != 30)
         {
-            if (atoi(info_diam) == 14 || atoi(info_diam) == 18 || atoi(info_diam) == 22 || atoi(info_diam) == 27)
+            if (bolt_diam == 14 || bolt_diam == 18 || bolt_diam == 22 || bolt_diam == 27)
                 wprintw(sub1, "!!! Not recommended diameter !!! ");
-            else if (atoi(info_diam) == 36 || atoi(info_diam) == 42 || atoi(info_diam) == 48)
+            else if (bolt_diam == 36 || bolt_diam == 42 || bolt_diam == 48)
                 wprintw(sub1, "!!! Unsupported diameter !!! ");
             else
                 wprintw(sub1, "!!! Incorrect diameter !!! ");
@@ -230,7 +230,7 @@ int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bol
         wmove(a1, 1, 45);   // работа с доп. окном a1
         wprintw(a1, "%s", info_diam);
         wrefresh(a1);
-        print_bolt_nut_washer_size(d1, info, number, atoi(info_diam));
+        print_bolt_nut_washer_size(d1, info, number, bolt_diam);
         ch = wgetch(sub1);
         if (ch == 'n')
         {
@@ -238,7 +238,7 @@ int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bol
             delete_char(d1, 4, 1, 55);
         }
     } while (ch != 'y');
-    return atoi(info_diam);
+    return bolt_diam;
 }
 
 int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, int pair_num)

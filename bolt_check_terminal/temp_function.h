@@ -27,6 +27,9 @@ typedef struct
 */
 extern int connect_package[6];
 
+// Диаметр болта
+extern int bolt_diam;
+
 // Массив под длины болтов
 extern int bolt_length[38];
 

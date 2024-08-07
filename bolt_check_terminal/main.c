@@ -16,6 +16,9 @@
 // Массив под входные данные
 int connect_package[6];
 
+// Диаметр болта
+int bolt_diam = 0;
+
 // Перечень длин болтов из ГОСТ
 int bolt_length[] = {22, 25, 28, 30, 32, 35, 38, 40, 45, 50, 55,
                      60, 65, 70, 75, 80, 85, 90, 95, 100, 105,
@@ -34,8 +37,7 @@ int main(void)
     int ch;      // для работы с клавишами
     int result1_2, result3;
     int maxx, maxy, halfx, halfy;
-    int bolt_diam = 0;                  // диаметр болта
-    int bolt_length = 0;                // длина болта
+
     int thick_parts_head = 0;           // толщина деталей (детали) под головкой болта
     int thick_part_nut = 0;             // толщина детали под гайкой
     int number_wash_head = 0;           // количество шайб под головкой болта
