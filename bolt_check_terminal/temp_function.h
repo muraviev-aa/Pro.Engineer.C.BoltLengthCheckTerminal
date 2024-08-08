@@ -44,7 +44,10 @@ void add_record(bolt info[], int number, unsigned int bolt_name, double washer_t
 int read_data_file(FILE **fptr, bolt info[]);
 
 // Печатаем размеры болта, гайки и шайбы из ГОСТ
-void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_diam);
+void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_diam, int b_length);
+
+// Уточнение по диаметру болта длины резьбы в зависимости от его длины
+int check_thread_length(int bolt_d, int b_length);
 
 // Работаем с горячими клавишами
 void enter_hotkeys(WINDOW *sub1, int pair_num);
@@ -53,7 +56,7 @@ void enter_hotkeys(WINDOW *sub1, int pair_num);
 int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info[], int number);
 
 // Ввод длины болта
-int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, int pair_num);
+int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info1[], int number);
 
 // Ввод толщины соединяемых деталей (детали) под головкой болта
 int enter_data_thick_parts_head(WINDOW *sub1, WINDOW *a1, int pair_num);

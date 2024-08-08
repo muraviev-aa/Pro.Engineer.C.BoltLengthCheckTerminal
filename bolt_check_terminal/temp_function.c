@@ -37,18 +37,33 @@ int read_data_file(FILE **fptr, bolt info[])
 }
 
 // Данные из ГОСТ в доп. окне d1
-void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_diam)
+void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_d, int b_length)
 {
+    int t_length = check_thread_length(bolt_d, b_length); // уточняем длину резьбы
     for (int i = 0; i < number; i++)
     {
-        if (info[i].bolt_name == bolt_diam)
+        if (info[i].bolt_name == bolt_d)
         {
+            int local_t_length;
+            if (t_length == 0)
+                local_t_length = info[i].thread_length;
+            else
+                local_t_length = t_length;
             wmove(d1, 4, 1);
             wprintw(d1, "%10.1f%11.1f%11d%13.1f%9.1f", info[i].washer_thickness, info[i].nut_height,
-                    info[i].thread_length, info[i].thread_pitch, info[i].chamfer);
+                    local_t_length, info[i].thread_pitch, info[i].chamfer);
             wrefresh(d1);
         }
     }
+}
+
+// Уточнение по диаметру болта длины резьбы в зависимости от его длины
+int check_thread_length(int bolt_d, int b_length)
+{
+    int thread_length = 0;
+    if (bolt_d == 10 && b_length >= 130)
+        thread_length = 32;
+    return thread_length;
 }
 
 // Проверка 1: резьба в детали (превышение 0.5t крайней к гайке детали)
@@ -230,7 +245,7 @@ int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bol
         wmove(a1, 1, 45);   // работа с доп. окном a1
         wprintw(a1, "%s", info_diam);
         wrefresh(a1);
-        print_bolt_nut_washer_size(d1, info, number, bolt_diam);
+        //print_bolt_nut_washer_size(d1, info, number, bolt_diam);
         ch = wgetch(sub1);
         if (ch == 'n')
         {
@@ -241,10 +256,11 @@ int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bol
     return bolt_diam;
 }
 
-int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, int pair_num)
+int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info[], int number)
 {
     int ch, flag = 0;
-    char info[4];
+    char local_info[4];
+    int b_length;
     do
     {
         wclear(sub1);
@@ -252,19 +268,21 @@ int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, int pair_num)
         box(stdscr, 0, 0);
         wmove(sub1, 0, 1);
         waddstr(sub1, "2. Enter bolt length: ");
-        wgetnstr(sub1, info, 3);
+        wgetnstr(sub1, local_info, 3);
         wmove(sub1, 1, 4);
         for (int i = 0; i < 38; i++)
         {
-            if (bolt_length[i] == atoi(info))
+            if (bolt_length[i] == atoi(local_info))
                 flag++;
         }
         if (flag == 0)
             wprintw(sub1, "!!! Incorrect length !!! ");
         wprintw(sub1, "If the information is correct then press 'y', if incorrect press 'n' ");
         wmove(a1, 2, 45);   // работа с доп. окном a1
-        wprintw(a1, "%s", info);
+        wprintw(a1, "%s", local_info);
+        b_length = atoi(local_info);
         wrefresh(a1);
+        print_bolt_nut_washer_size(d1, info, number, bolt_diam, b_length); // печать данных их файла в доп. окно d1
         ch = wgetch(sub1);
         if (ch == 'n')
         {
@@ -272,7 +290,7 @@ int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, int pair_num)
             ch = 0;
         }
     } while (ch != 'y');
-    return atoi(info);
+    return b_length;
 }
 
 int enter_data_thick_parts_head(WINDOW *sub1, WINDOW *a1, int pair_num)

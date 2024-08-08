@@ -161,7 +161,7 @@ int main(void)
     refresh();
 
     // 2. Вводим длину болта
-    connect_package[1] = enter_data_bolt_length(sub1, a1, 4);
+    connect_package[1] = enter_data_bolt_length(sub1, a1, d1,4, info, count);
     refresh();
 
     // 3. Вводим толщину деталей (детали) под головкой болта
