@@ -49,6 +49,9 @@ void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_di
 // Уточнение по диаметру болта длины резьбы в зависимости от его длины
 int check_thread_length(int bolt_d, int b_length);
 
+// Получение длины резьбы после проверки
+int getInt(const bolt *info, int i, int t_length);
+
 // Работаем с горячими клавишами
 void enter_hotkeys(WINDOW *sub1, int pair_num);
 

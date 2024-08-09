@@ -44,11 +44,7 @@ void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_d,
     {
         if (info[i].bolt_name == bolt_d)
         {
-            int local_t_length;
-            if (t_length == 0)
-                local_t_length = info[i].thread_length;
-            else
-                local_t_length = t_length;
+            int local_t_length = getInt(info, i, t_length);
             wmove(d1, 4, 1);
             wprintw(d1, "%10.1f%11.1f%11d%13.1f%9.1f", info[i].washer_thickness, info[i].nut_height,
                     local_t_length, info[i].thread_pitch, info[i].chamfer);
@@ -58,12 +54,16 @@ void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_d,
 }
 
 // Уточнение по диаметру болта длины резьбы в зависимости от его длины
-// only M10,
+// only M10, M12
 int check_thread_length(int bolt_d, int b_length)
 {
     int thread_length = 0;
     if (bolt_d == 10 && b_length >= 130)
         thread_length = 32;
+    else if (bolt_d == 12 && b_length >= 130 && b_length < 220)
+        thread_length = 36;
+    else if (bolt_d == 12 && b_length >= 220)
+        thread_length = 49;
     return thread_length;
 }
 
@@ -80,11 +80,7 @@ int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr)
         if (bolt_d == arr[0])
         {
             int t_length = check_thread_length(bolt_d, b_length); // уточняем длину резьбы
-            int local_t_length;
-            if (t_length == 0)
-                local_t_length = info[i].thread_length;
-            else
-                local_t_length = t_length;
+            int local_t_length = getInt(info, i, t_length);
             thread_result = arr[4] * info[i].washer_thickness + arr[2] + arr[3] - b_length + local_t_length;
             if (thread_result > 0) // резьба в крайней к гайке детали
             {
@@ -120,6 +116,17 @@ int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr)
         }
     }
     return 0;
+}
+
+// Получение длины резьбы после проверки
+int getInt(const bolt *info, int i, int t_length)
+{
+    int local_t_length;
+    if (t_length == 0)
+        local_t_length = info[i].thread_length;
+    else
+        local_t_length = t_length;
+    return local_t_length;
 }
 
 // Проверка 3: проверка длины конца болта (не менее одного полного витка резьбы + фаска)
