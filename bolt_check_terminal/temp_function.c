@@ -58,6 +58,7 @@ void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_d,
 }
 
 // Уточнение по диаметру болта длины резьбы в зависимости от его длины
+// only M10,
 int check_thread_length(int bolt_d, int b_length)
 {
     int thread_length = 0;
@@ -74,9 +75,17 @@ int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr)
     double thread_result;
     for (int i = 0; i < number; i++)
     {
-        if (info[i].bolt_name == arr[0])
+        int bolt_d = info[i].bolt_name;
+        int b_length = arr[1];
+        if (bolt_d == arr[0])
         {
-            thread_result = arr[4] * info[i].washer_thickness + arr[2] + arr[3] - arr[1] + info[i].thread_length;
+            int t_length = check_thread_length(bolt_d, b_length); // уточняем длину резьбы
+            int local_t_length;
+            if (t_length == 0)
+                local_t_length = info[i].thread_length;
+            else
+                local_t_length = t_length;
+            thread_result = arr[4] * info[i].washer_thickness + arr[2] + arr[3] - b_length + local_t_length;
             if (thread_result > 0) // резьба в крайней к гайке детали
             {
                 wmove(b1, 2, 16);
