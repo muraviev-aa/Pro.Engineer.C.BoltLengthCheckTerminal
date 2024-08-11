@@ -54,7 +54,7 @@ void print_bolt_nut_washer_size(WINDOW *d1, bolt info[], int number, int bolt_d,
 }
 
 // Уточнение по диаметру болта длины резьбы в зависимости от его длины
-// only M10, M12, M16
+// only M10, M12, M16, M20
 int check_thread_length(int bolt_d, int b_length)
 {
     int thread_length = 0;
@@ -68,6 +68,10 @@ int check_thread_length(int bolt_d, int b_length)
         thread_length = 44;
     else if (bolt_d == 16 && b_length >= 220)
         thread_length = 57;
+    else if (bolt_d == 20 && b_length >= 130 && b_length < 220)
+        thread_length = 52;
+    else if (bolt_d == 20 && b_length >= 220)
+        thread_length = 65;
     return thread_length;
 }
 
