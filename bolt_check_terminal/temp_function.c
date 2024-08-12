@@ -72,6 +72,10 @@ int check_thread_length(int bolt_d, int b_length)
         thread_length = 52;
     else if (bolt_d == 20 && b_length >= 220)
         thread_length = 65;
+    else if (bolt_d == 24 && b_length >= 130 && b_length < 220)
+        thread_length = 60;
+    else if (bolt_d == 24 && b_length >= 220)
+        thread_length = 73;
     return thread_length;
 }
 
