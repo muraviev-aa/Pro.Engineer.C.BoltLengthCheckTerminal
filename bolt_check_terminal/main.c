@@ -83,7 +83,7 @@ int main(void)
     b = subwin(stdscr, halfy - 2, halfx - 1, 3, halfx);
     b1 = subwin(stdscr, halfy - 5, halfx - 2, 4, halfx + 2);
     c = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, halfx);
-    c1 = subwin(stdscr, halfy - 5, halfx - 2, halfy + 2, halfx + 2);
+    c1 = subwin(stdscr, halfy - 2, halfx - 2, halfy + 2, halfx + 2);
     d = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, 1);
     d1 = subwin(stdscr, halfy - 5, halfx - 2, halfy + 2, 2);
 
@@ -161,28 +161,28 @@ int main(void)
     refresh();
 
     // 2. Вводим длину болта
-    connect_package[1] = enter_data_bolt_length(sub1, a1, d1,4, info, count);
+    connect_package[1] = enter_data_bolt_length(sub1, a1, d1, c1, 4, info, count);
     refresh();
 
     // 3. Вводим толщину деталей (детали) под головкой болта
-    connect_package[2] = enter_data_thick_parts_head(sub1, a1, 5);
+    connect_package[2] = enter_data_thick_parts_head(sub1, a1, c1, 5);
     refresh();
 
     // 4. Вводим толщину детали под гайкой
-    connect_package[3] = enter_data_thick_part_nut(sub1, a1, 3);
+    connect_package[3] = enter_data_thick_part_nut(sub1, a1, c1, 3);
     refresh();
 
     // 5. Вводим количество шайб под головкой болта
-    connect_package[4] = enter_data_number_wash_head(sub1, a1, 6);
+    connect_package[4] = enter_data_number_wash_head(sub1, a1, c1, 6);
     refresh();
 
     // 6. Вводим количество шайб под гайкой
-    connect_package[5] = enter_data_number_wash_nut(sub1, a1, 7);
+    connect_package[5] = enter_data_number_wash_nut(sub1, a1, c1, 7);
     refresh();
 
     /* Работа с доп. окном b) */
     // Проверяем место нахождения резьбы
-    result1_2 = bolt_check_thread(b1, info, count, connect_package);
+    result1_2 = bolt_check_thread(b1, c1, info, count, connect_package);
     refresh();
 
     // Проверяем длину кончика болта, выступающего из гайки

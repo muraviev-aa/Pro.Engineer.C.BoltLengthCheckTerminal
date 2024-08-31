@@ -86,7 +86,7 @@ int check_thread_length(int bolt_d, int b_length)
 // Проверка 1: резьба в детали (превышение 0.5t крайней к гайке детали)
 // Проверка 2: резьба в шайбе (возможность закрутить гайку)
 // Строки в доп. окне b1
-int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr)
+int bolt_check_thread(WINDOW *b1, WINDOW *c1, bolt info[], int number, const int *arr)
 {
     double thread_result;
     for (int i = 0; i < number; i++)
@@ -102,7 +102,10 @@ int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr)
             {
                 wmove(b1, 2, 16);
                 wprintw(b1, "Thread in detail %.1f", fabs(thread_result));
+                wmove(c1, 3, 28);
+                waddch(c1, ACS_DIAMOND);
                 wrefresh(b1);
+                wrefresh(c1);
                 if (thread_result > 0.5 * arr[3])
                 {
                     wmove(b1, 3, 9);
@@ -114,7 +117,10 @@ int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr)
             {
                 wmove(b1, 2, 16);
                 wprintw(b1, "Thread in washer %.1f ", fabs(thread_result));
+                wmove(c1, 3, 31);
+                waddch(c1, ACS_DIAMOND);
                 wrefresh(b1);
+                wrefresh(c1);
                 if (fabs(thread_result) > arr[5] * info[i].washer_thickness)
                 {
                     printf("!!! Do not tighten the nut !!!");
@@ -173,37 +179,37 @@ int bolt_tip_check(WINDOW *b1, bolt info[], int number, const int *arr)
 // Вывод результатов проверки
 void print_result_check(WINDOW *c1, int res1_2, int res3)
 {
-    wmove(c1, 3, 1);
+    wmove(c1, 7, 1);
     wprintw(c1, "%15s%20s%17s", "ThreadRequirement", "TighteningNut", "TipCheck");
     wrefresh(c1);
     if (res1_2 == 0 && res3 == 0)
     {
-        wmove(c1, 4, 1);
+        wmove(c1, 8, 1);
         wprintw(c1, "%17s%20s%17s", "YES", "YES", "YES");
         wrefresh(c1);
     } else if (res1_2 == 0 && res3 == 1)
     {
-        wmove(c1, 4, 1);
+        wmove(c1, 8, 1);
         wprintw(c1, "%17s%20s%17s", "YES", "YES", "NO");
         wrefresh(c1);
     } else if (res1_2 == 1 && res3 == 0)
     {
-        wmove(c1, 4, 1);
+        wmove(c1, 8, 1);
         wprintw(c1, "%17s%20s%17s", "NO", "YES", "YES");
         wrefresh(c1);
     } else if (res1_2 == 1 && res3 == 1)
     {
-        wmove(c1, 4, 1);
+        wmove(c1, 8, 1);
         wprintw(c1, "%17s%20s%17s", "NO", "YES", "NO");
         wrefresh(c1);
     } else if (res1_2 == 2 && res3 == 0)
     {
-        wmove(c1, 4, 1);
+        wmove(c1, 8, 1);
         wprintw(c1, "%17s%20s%17s", "YES", "NO", "YES");
         wrefresh(c1);
     } else if (res1_2 == 2 && res3 == 1)
     {
-        wmove(c1, 4, 1);
+        wmove(c1, 8, 1);
         wprintw(c1, "%17s%20s%17s", "YES", "NO", "NO");
         wrefresh(c1);
     }
@@ -288,7 +294,7 @@ int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bol
     return bolt_diam;
 }
 
-int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info[], int number)
+int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, WINDOW *d1, WINDOW *c1, int pair_num, bolt info[], int number)
 {
     int ch, flag = 0;
     char local_info[4];
@@ -322,10 +328,40 @@ int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, b
             ch = 0;
         }
     } while (ch != 'y');
+    /* Рисуем болт */
+    // головка болта
+    for (int j = 2; j <= 4; j++)
+    {
+        wmove(c1, j, 18);
+        waddch(c1, ACS_BLOCK);
+    }
+    // тело болта
+    for (int i = 19; i <= 33; i++)
+    {
+        wmove(c1, 3, i);
+        waddch(c1, ACS_LANTERN);
+    }
+    /* Рисуем первую гайку */
+    for (int j = 2; j <= 4; j++)
+    {
+        wmove(c1, j, 34);
+        waddch(c1, ACS_BLOCK);
+    }
+    wmove(c1, 3, 35);
+    waddch(c1, ACS_LANTERN);
+    /* Рисуем вторую гайку */
+    for (int j = 2; j <= 4; j++)
+    {
+        wmove(c1, j, 36);
+        waddch(c1, ACS_BLOCK);
+    }
+    // конец болта
+    wmove(c1, 3, 37);
+    waddch(c1, ACS_LANTERN);
     return b_length;
 }
 
-int enter_data_thick_parts_head(WINDOW *sub1, WINDOW *a1, int pair_num)
+int enter_data_thick_parts_head(WINDOW *sub1, WINDOW *a1, WINDOW *c1, int pair_num)
 {
     int ch;
     char info[4];
@@ -346,10 +382,23 @@ int enter_data_thick_parts_head(WINDOW *sub1, WINDOW *a1, int pair_num)
         if (ch == 'n')
             delete_char(a1, 4, 45, 3);
     } while (ch != 'y');
+    /* Рисуем деталь под головкой болта */
+    for (int i = 24; i <= 25; i++)
+    {
+        wmove(c1, 1, i);
+        waddch(c1, ACS_BOARD);
+        wmove(c1, 2, i);
+        waddch(c1, ACS_BOARD);
+        wmove(c1, 4, i);
+        waddch(c1, ACS_BOARD);
+        wmove(c1, 5, i);
+        waddch(c1, ACS_BOARD);
+    }
+
     return atoi(info);
 }
 
-int enter_data_thick_part_nut(WINDOW *sub1, WINDOW *a1, int pair_num)
+int enter_data_thick_part_nut(WINDOW *sub1, WINDOW *a1, WINDOW *c1, int pair_num)
 {
     int ch;
     char info[4];
@@ -370,12 +419,25 @@ int enter_data_thick_part_nut(WINDOW *sub1, WINDOW *a1, int pair_num)
         if (ch == 'n')
             delete_char(a1, 5, 45, 3);
     } while (ch != 'y');
+    /* Рисуем деталь под гайкой болта */
+    for (int i = 27; i <= 28; i++)
+    {
+        wmove(c1, 1, i);
+        waddch(c1, ACS_CKBOARD);
+        wmove(c1, 2, i);
+        waddch(c1, ACS_CKBOARD);
+        wmove(c1, 4, i);
+        waddch(c1, ACS_CKBOARD);
+        wmove(c1, 5, i);
+        waddch(c1, ACS_CKBOARD);
+    }
     return atoi(info);
 }
 
-int enter_data_number_wash_head(WINDOW *sub1, WINDOW *a1, int pair_num)
+int enter_data_number_wash_head(WINDOW *sub1, WINDOW *a1, WINDOW *c1, int pair_num)
 {
     int ch;
+    int result_wash;
     char info[2];
     do
     {
@@ -385,21 +447,31 @@ int enter_data_number_wash_head(WINDOW *sub1, WINDOW *a1, int pair_num)
         wmove(sub1, 0, 1);
         waddstr(sub1, "5. Number of washers under the bolt head: ");
         wgetnstr(sub1, info, 1);
+        result_wash = atoi(info);
         wmove(sub1, 1, 4);
         wprintw(sub1, "If the information is correct then press 'y', if incorrect press 'n' ");
         wmove(a1, 7, 45);   // работа с доп. окном a1
-        wprintw(a1, "%s", info);
+        wprintw(a1, "%d", result_wash);
         wrefresh(a1);
         ch = wgetch(sub1);
         if (ch == 'n')
             delete_char(a1, 7, 45, 1);
     } while (ch != 'y');
-    return atoi(info);
+    /* Рисуем шайбу под головкой болта */
+    if (result_wash != 0)
+    {
+        wmove(c1, 2, 21);
+        waddch(c1, ACS_VLINE);
+        wmove(c1, 4, 21);
+        waddch(c1, ACS_VLINE);
+    }
+    return result_wash;
 }
 
-int enter_data_number_wash_nut(WINDOW *sub1, WINDOW *a1, int pair_num)
+int enter_data_number_wash_nut(WINDOW *sub1, WINDOW *a1, WINDOW *c1, int pair_num)
 {
     int ch;
+    int result_wash;
     char info[2];
     do
     {
@@ -409,16 +481,32 @@ int enter_data_number_wash_nut(WINDOW *sub1, WINDOW *a1, int pair_num)
         wmove(sub1, 0, 1);
         waddstr(sub1, "6. Number of washers under nuts: ");
         wgetnstr(sub1, info, 3);
+        result_wash = atoi(info);
         wmove(sub1, 1, 4);
         wprintw(sub1, "If the information is correct then press 'y', if incorrect press 'n' ");
         wmove(a1, 8, 45);   // работа с доп. окном a1
-        wprintw(a1, "%s", info);
+        wprintw(a1, "%d", result_wash);
         wrefresh(a1);
         ch = wgetch(sub1);
         if (ch == 'n')
             delete_char(a1, 8, 45, 1);
     } while (ch != 'y');
-    return atoi(info);
+    /* Рисуем шайбы под гайкой */
+    if (result_wash != 0)
+    {
+        wmove(c1, 2, 31);
+        waddch(c1, ACS_VLINE);
+        wmove(c1, 4, 31);
+        waddch(c1, ACS_VLINE);
+        if (result_wash == 2)
+        {
+            wmove(c1, 2, 32);
+            waddch(c1, ACS_VLINE);
+            wmove(c1, 4, 32);
+            waddch(c1, ACS_VLINE);
+        }
+    }
+    return result_wash;
 }
 
 void delete_char(WINDOW *w, int row, int column, int count_ch)

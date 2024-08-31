@@ -59,25 +59,25 @@ void enter_hotkeys(WINDOW *sub1, int pair_num);
 int enter_data_bolt_diam(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info[], int number);
 
 // Ввод длины болта
-int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, WINDOW *d1, int pair_num, bolt info1[], int number);
+int enter_data_bolt_length(WINDOW *sub1, WINDOW *a1, WINDOW *d1, WINDOW *c1, int pair_num, bolt info1[], int number);
 
 // Ввод толщины соединяемых деталей (детали) под головкой болта
-int enter_data_thick_parts_head(WINDOW *sub1, WINDOW *a1, int pair_num);
+int enter_data_thick_parts_head(WINDOW *sub1, WINDOW *a1, WINDOW *c1, int pair_num);
 
 // Ввод толщины присоединяемой детали под гайкой
-int enter_data_thick_part_nut(WINDOW *sub1, WINDOW *a1, int pair_num);
+int enter_data_thick_part_nut(WINDOW *sub1, WINDOW *a1, WINDOW *c1, int pair_num);
 
 // Ввод количества шайб под головкой болта
-int enter_data_number_wash_head(WINDOW *sub1, WINDOW *a1, int pair_num);
+int enter_data_number_wash_head(WINDOW *sub1, WINDOW *a1, WINDOW *c1, int pair_num);
 
 // Ввод количества шайб под гайкой
-int enter_data_number_wash_nut(WINDOW *sub1, WINDOW *a1, int pair_num);
+int enter_data_number_wash_nut(WINDOW *sub1, WINDOW *a1, WINDOW *c1, int pair_num);
 
 // Удаляем символы
 void delete_char(WINDOW *w, int row, int column, int count_ch);
 
 // Определяем расположение резьбы
-int bolt_check_thread(WINDOW *b1, bolt info[], int number, const int *arr);
+int bolt_check_thread(WINDOW *b1, WINDOW *c1, bolt info[], int number, const int *arr);
 
 // Определяем длину кончика болта, выступающего из гайки
 int bolt_tip_check(WINDOW *b1, bolt info[], int number, const int *arr);
