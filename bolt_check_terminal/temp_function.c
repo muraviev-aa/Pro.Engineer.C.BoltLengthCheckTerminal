@@ -103,7 +103,7 @@ int bolt_check_thread(WINDOW *b1, WINDOW *c1, bolt info[], int number, const int
                 wmove(b1, 2, 16);
                 wprintw(b1, "Thread in detail %.1f", fabs(thread_result));
                 wmove(c1, 3, 28);
-                waddch(c1, ACS_DIAMOND);
+                waddch(c1, ACS_DIAMOND); // знак резьбы
                 wrefresh(b1);
                 wrefresh(c1);
                 if (thread_result > 0.5 * arr[3])
@@ -118,7 +118,7 @@ int bolt_check_thread(WINDOW *b1, WINDOW *c1, bolt info[], int number, const int
                 wmove(b1, 2, 16);
                 wprintw(b1, "Thread in washer %.1f ", fabs(thread_result));
                 wmove(c1, 3, 31);
-                waddch(c1, ACS_DIAMOND);
+                waddch(c1, ACS_DIAMOND); // знак резьбы
                 wrefresh(b1);
                 wrefresh(c1);
                 if (fabs(thread_result) > arr[5] * info[i].washer_thickness)
@@ -133,7 +133,12 @@ int bolt_check_thread(WINDOW *b1, WINDOW *c1, bolt info[], int number, const int
             {
                 wmove(b1, 2, 0);
                 wprintw(b1, "Thread at the interface between the part and the washer");
+                wmove(c1, 3, 29);
+                waddch(c1, ACS_DIAMOND); // знак резьбы
+                wmove(c1, 3, 28);
+                waddch(c1, ACS_DIAMOND); // знак резьбы
                 wrefresh(b1);
+                wrefresh(c1);
             }
         }
     }
