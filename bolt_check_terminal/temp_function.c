@@ -1,11 +1,17 @@
 #include "temp_function.h"
 #include <math.h>
 
-int open_file(FILE **fptr, char *name_file)
+int open_file(WINDOW *b1, FILE **fptr, char *name_file)
 {
     if ((*fptr = fopen(name_file, "r")) == NULL)
     {
         perror("Error opening file");
+        wbkgd(b1, COLOR_PAIR(9));
+        wmove(b1, 4, 14);
+        wprintw(b1, "!!!      ATTENTION     !!!");
+        wmove(b1, 5, 14);
+        wprintw(b1, "!!! ERROR OPENING FILE !!!"); // файл с данными не найден
+        wrefresh(b1);
         return 1;
     }
     return 0;

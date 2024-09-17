@@ -38,11 +38,6 @@ int main(void)
     int result1_2, result3;
     int maxx, maxy, halfx, halfy;
 
-    int thick_parts_head = 0;           // толщина деталей (детали) под головкой болта
-    int thick_part_nut = 0;             // толщина детали под гайкой
-    int number_wash_head = 0;           // количество шайб под головкой болта
-    int number_wash_nut = 0;            // количество шайб под гайками
-
     // Количество soft labels
     char label_text[LMAX][8] = {"HELP", "RESET", "ABOUT", "EXIT"};
     int label;
@@ -81,7 +76,7 @@ int main(void)
     a = subwin(stdscr, halfy - 2, halfx - 1, 3, 1);
     a1 = subwin(stdscr, halfy - 5, halfx - 3, 4, 3);
     b = subwin(stdscr, halfy - 2, halfx - 1, 3, halfx);
-    b1 = subwin(stdscr, halfy - 5, halfx - 2, 4, halfx + 2);
+    b1 = subwin(stdscr, halfy - 4, halfx - 5, 4, halfx + 2);
     c = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, halfx);
     c1 = subwin(stdscr, halfy - 2, halfx - 2, halfy + 2, halfx + 2);
     d = subwin(stdscr, halfy - 2, halfx - 1, halfy + 1, 1);
@@ -105,6 +100,7 @@ int main(void)
     init_pair(6, COLOR_BLUE, USER5);           // базовый toxic желтый
     init_pair(7, COLOR_BLUE, USER6);           // базовый оранжевый
     init_pair(8, COLOR_BLUE, USER7);           // базовый toxic желтый
+    init_pair(9, COLOR_WHITE, COLOR_RED);      // файл не найден
 
     // Пишем в каждом доп. окне
     wbkgd(a, COLOR_PAIR(2));
@@ -148,7 +144,7 @@ int main(void)
 
     /* Работа с доп. окном d) */
     // Работа с файлом
-    open_file(&fptr, file_name);
+    open_file(b1, &fptr, file_name);
     count = read_data_file(&fptr, info);
     fclose(fptr);
 

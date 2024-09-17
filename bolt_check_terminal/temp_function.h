@@ -34,7 +34,7 @@ extern int bolt_diam;
 extern int bolt_length[38];
 
 // Открыть файл
-int open_file(FILE **fptr, char *name_file);
+int open_file(WINDOW *b1, FILE **fptr, char *name_file);
 
 // Добавление записей
 void add_record(bolt info[], int number, unsigned int bolt_name, double washer_thickness,
